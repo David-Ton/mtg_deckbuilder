@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Picker } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Picker, FlatList, Button } from 'react-native';
 import {strings} from '../resources/strings.js';
+import SearchFieldsComponent from '../components/SearchFieldsComponent.js'
 
 export default class SearchCards extends React.Component {
 
@@ -8,12 +9,117 @@ export default class SearchCards extends React.Component {
     super(props);
     this.state = {
       cardName: "",
-      type: ""
+      type: "",
+      keywords: ["Flying"],
+      subtypes: ["Vampire"]
     };
   }
 
   componentDidMount() {
 
+  }
+
+  queryCards() {
+
+    paramsAdded = false;
+    baseRequestURL = "https://api.magicthegathering.io/v1/cards";
+    if (this.state.cardName.length != 0)
+    {
+      if (!paramsAdded)
+      {
+          baseRequestURL = baseRequestURL + "?name=" + this.state.name;
+          paramsAdded = true;
+      }
+      else
+      {
+        baseRequestURL = baseRequestURL + "&name=" + this.state.name;
+      }
+    }
+    if (this.state.type.length != 0)
+    {
+      if (!paramsAdded)
+      {
+          baseRequestURL = baseRequestURL + "?type=" + this.state.type;
+          paramsAdded = true;
+      }
+      else
+      {
+        baseRequestURL = baseRequestURL + "&type=" + this.state.type;
+      }
+    }
+    if (this.state.keywords.length != 0)
+    {
+      if (!paramsAdded)
+      {
+          baseRequestURL = baseRequestURL + "?keywords=";
+          paramsAdded = true;
+      }
+      else
+      {
+        baseRequestURL = baseRequestURL + "&keywords=";
+      }
+
+        this.state.keywords.forEach((value, index, array) => {
+            baseRequestURL = baseRequestURL + value;
+            if (index != array.length - 1) {
+                baseRequestURL = baseRequestURL + "%2C";
+            }
+        });
+      }
+      if (this.state.subtypes.length != 0) {
+          if (!paramsAdded) {
+              baseRequestURL = baseRequestURL + "?subtypes=";
+              paramsAdded = true;
+          }
+          else {
+              baseRequestURL = baseRequestURL + "&subtypes=";
+          }
+
+          this.state.subtypes.forEach((value, index, array) => {
+              baseRequestURL = baseRequestURL + value;
+              if (index != array.length - 1) {
+                  baseRequestURL = baseRequestURL + "%2C";
+              }
+          });
+      }
+    if (this.state.power)
+    {
+      if (!paramsAdded)
+      {
+          baseRequestURL = baseRequestURL + "?power=" + parseInt(this.state.power);
+          paramsAdded = true;
+      }
+      else
+      {
+        baseRequestURL = baseRequestURL + "&power=" + parseInt(this.state.power);
+      }
+    }
+    if (this.state.toughness)
+    {
+      if (!paramsAdded)
+      {
+          baseRequestURL = baseRequestURL + "?toughness=" + parseInt(this.state.toughness);
+          paramsAdded = true;
+      }
+      else
+      {
+        baseRequestURL = baseRequestURL + "&toughness=" + parseInt(this.state.toughness);
+      }
+    }
+    console.log("Request URL: " + baseRequestURL);
+
+      fetch(baseRequestURL)
+          .then((response) => {
+              return response.json();
+          })
+          .then((responseJSON) => {
+              console.log(JSON.stringify(responseJSON));
+          })
+  }
+
+  setStateHandler(stateObject) {
+    this.setState(stateObject);
+    console.log(this.state);
   }
 
   render() {
@@ -26,11 +132,13 @@ export default class SearchCards extends React.Component {
           <View style={{flexDirection: 'row'}}>
             <Text>{strings.CardName}</Text>
             <TextInput
+            style={styles.textinput}
             onChangeText={(text) => {
+                console.log(this.state);
                 this.setState({
                   cardName: text
                 });
-                console.log(text);
+                console.log(this.state);
             }}
             />
           </View>
@@ -52,11 +160,18 @@ export default class SearchCards extends React.Component {
               <Picker.Item label="Planeswalker" value="planeswalker"/>
             </Picker>
           </View>
+          <SearchFieldsComponent state={this.state}
+          handler={this.setStateHandler.bind(this)}/>
+          <Button
+          title={strings.Search}
+          onPress={this.queryCards.bind(this)}
+           />
         </View>
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -75,7 +190,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10
   },
+  field: {
+    marginRight: 10
+  },
   textinput: {
-    width: 100
+    width: 100,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1
   }
 });
