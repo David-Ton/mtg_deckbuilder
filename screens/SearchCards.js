@@ -27,7 +27,7 @@ class SearchCards extends React.Component {
     {
       if (!paramsAdded)
       {
-          baseRequestURL = baseRequestURL + "?name=" + this.state.name;
+          baseRequestURL = baseRequestURL + "?name=" + this.state.cardName;
           paramsAdded = true;
       }
       else
