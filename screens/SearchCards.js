@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Picker, FlatList, Button } from 'react-native';
-import {strings} from '../resources/strings.js';
-import SearchFieldsComponent from '../components/SearchFieldsComponent.js'
+import {strings} from '../resources/strings';
+import SearchFieldsComponent from '../components/SearchFieldsComponent'
 
-export default class SearchCards extends React.Component {
+class SearchCards extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       cardName: "",
-      type: "",
+      type: "creature",
       keywords: ["Flying"],
       subtypes: ["Vampire"]
     };
@@ -113,7 +113,10 @@ export default class SearchCards extends React.Component {
               return response.json();
           })
           .then((responseJSON) => {
-              console.log(JSON.stringify(responseJSON));
+                
+              this.props.navigation.navigate('CardsLayout', {
+                  cardsDataString: JSON.stringify(responseJSON)
+              });
           })
   }
 
@@ -171,6 +174,8 @@ export default class SearchCards extends React.Component {
     );
   }
 }
+
+export default SearchCards;
 
 
 const styles = StyleSheet.create({
