@@ -152,12 +152,12 @@ class SearchCards extends React.Component {
     {
       if (!paramsAdded)
         {
-            baseRequestURL = baseRequestURL + "?colors=" + colorBuildString;
             paramsAdded = true;
+            baseRequestURL = baseRequestURL + "?colors=" + colorBuildString;
         }
         else
         {
-          baseRequestURL = baseRequestURL + "&colors=" + colorBuildString;
+            baseRequestURL = baseRequestURL + "&colors=" + colorBuildString;   
         }
 
         if (this.state.rarity != "Select")
@@ -176,7 +176,7 @@ class SearchCards extends React.Component {
 
     if (this.state.text)
     {
-      if (!paramsAdded)
+          if (!paramsAdded)
           {
               baseRequestURL = baseRequestURL + "?text=" + this.state.text;
               paramsAdded = true;
@@ -234,9 +234,7 @@ class SearchCards extends React.Component {
             />
           </View>
 
-            <View style={styles.fieldContainer}>
-          <Text>{strings.Colors}</Text>
-          </View>
+          
           <ScrollView 
           horizontal={true}
           style={styles.fieldContainer}>

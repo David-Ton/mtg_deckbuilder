@@ -6,16 +6,19 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Image
+  Image,
+  TouchableOpacity,
+  Button
 } from 'react-native';
-
+import { Overlay } from 'react-native-elements';
 
 export default class CardsLayout extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            cardsData: []
+            cardsData: [],
+            overlayVisible: false
         }
     }
 
@@ -67,30 +70,59 @@ export default class CardsLayout extends Component {
     }
 
   render() {
-    return (
-      <View style={styles.containerMain}>
-        <View style={styles.headerContainer}>
-            <Text style={styles.header}>Search Results</Text>
-        </View>
-        <FlatList
-            data={this.state.cardsData}
-            extraData={this.state}
-            renderItem={({item, index}) => {
-               
-                    return (
-                        <View style={this.cardRowContainer}>
-                            
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item["imageUrl"]}}/>
-                            
-                        </View>
-                    );
+    
+        return (
+        <View style={styles.containerMain}>
+
+            <Overlay
+                isVisible={this.state.overlayVisible}
+                windowBackgroundColor="rgba(0, 0, 0, .8)"
+                overlayBackgroundColor="rgba(0, 0, 0, 0)"
+                width="auto"
+                height="auto"
+                onBackdropPress={() => {
+                    this.setState({overlayVisible: false})
+                }
+            }
+            >
+                <Image
+                    style={styles.overlayImage}
+                    source={{uri: this.state.overlayImageUri}}
+                />
+            
+            </Overlay>
+
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Search Results</Text>
+            </View>
+            <FlatList
+                data={this.state.cardsData}
+                extraData={this.state}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
                 
-            }}
-         />
-      </View>
-    );
+                        return (
+                            <TouchableOpacity style={this.cardRowContainer}
+                            onPress={() => {
+                                console.log(item["name"]);
+                                this.setState({
+                                    overlayVisible: true,
+                                    overlayImageUri: item["imageUrl"]
+                                })
+                            }}
+                            >
+                                    <Image 
+                                    style={styles.image}
+                                    source={{uri: item["imageUrl"]}}
+                                    />   
+                            </TouchableOpacity>
+                        );
+                    
+                }}
+            />
+        </View>
+        );
+        
   }
 }
 
@@ -115,5 +147,16 @@ const styles = StyleSheet.create({
       width: 200,
       height: 200,
       resizeMode: 'contain'
+  },
+  overlayImage: {
+    width: 400,
+    height: 400,
+    resizeMode: 'contain'
+  },
+  overlayWindow: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
   }
 });
