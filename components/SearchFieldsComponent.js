@@ -19,100 +19,23 @@ export default class SearchFieldsComponent extends Component {
   {
     super(props);
     this.state = {
-      subtypes: ["Vampire"],
-      keywords: ["Flying"]
+      subtypes: ["Select"]
     };
   }
 
   render() {
-      if (this.props.state.type == "creature")
+
+      if (this.props.state.type == "Select")
       {
+
         return (
           <View style={styles.fieldsContainer}>
-            <View style={styles.fieldContainer}>
-              <FlatList
-              data={this.state.keywords}
-              extraData={this.state}
-              renderItem={({item, index}) => {
-                if (index == 0)
-                {
-                  return (
-                    <View style={styles.fieldContainer}>
-                  <Button
-                  style={styles.Button}
-                  title={strings.AddKeyword}
-                  onPress={() => {
-                    currentState = this.state;
-                    currentState.keywords.push("Flying");
-                    this.props.handler({
-                      keywords: currentState.keywords
-                    });
-                    this.setState({
-                      keywords: currentState.keywords
-                    });
-                  }}
-                   />
-                  <Text>{strings.Keywords}</Text>
-                  <Picker style={{height: 50, width: 200}}
-                    selectedValue={this.state.keywords[index]}
-                    onValueChange={(value) => {
-                      currentState = this.state;
-
-                      currentState.keywords[index] = value;
-                      this.props.handler({
-                        keywords: currentState.keywords
-                      });
-                      this.setState({
-                        keywords: currentState.keywords
-                      });
-
-                    }}
-                    >
-                    <Picker.Item label="Flying" value="Flying" />
-                    <Picker.Item label="Reach" value="Reach" />
-                    <Picker.Item label="Vigilance" value="Vigilance" />
-                    <Picker.Item label="Trample" value="Trample" />
-                    <Picker.Item label="Haste" value="Haste" />
-                  </Picker>
-                  </View>
-              )}
-
-                return (
-                  <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end'
-                  }}>
-                  <Picker style={{height: 50, width: 200}}
-                    selectedValue={this.state.keywords[index]}
-                    onValueChange={(value) => {
-                      currentState = this.state;
-
-                      currentState.keywords[index] = value;
-                      this.props.handler({
-                        keywords: currentState.keywords
-                      });
-                      this.setState({
-                        keywords: currentState.keywords
-                      });
-
-                    }}
-                    >
-                    <Picker.Item label="Flying" value="Flying" />
-                    <Picker.Item label="Reach" value="Reach" />
-                    <Picker.Item label="Vigilance" value="Vigilance" />
-                    <Picker.Item label="Trample" value="Trample" />
-                    <Picker.Item label="Haste" value="Haste" />
-                  </Picker>
-                </View>
-
-              )}} />
-            </View>
-
             <View style={styles.fieldContainer}>
 
               <FlatList
                 data={this.state.subtypes}
                 extraData={this.state}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={({item, index}) => {
 
                   if (index == 0)
@@ -124,7 +47,7 @@ export default class SearchFieldsComponent extends Component {
                     title={strings.AddSubtype}
                     onPress={() => {
                       currentState = this.state;
-                      currentState.subtypes.push("Vampire");
+                      currentState.subtypes.push("Select");
                       console.log(currentState.subtypes.length);
                       this.props.handler({
                         subtypes: currentState.subtypes
@@ -138,6 +61,8 @@ export default class SearchFieldsComponent extends Component {
                     <Picker style={{height: 50, width: 200}}
                       selectedValue={this.state.subtypes[index]}
                       onValueChange={(value) => {
+                        if (value != null)
+                        {
                         currentState = this.props.state;
 
                         currentState.subtypes[index] = value;
@@ -147,14 +72,16 @@ export default class SearchFieldsComponent extends Component {
                         this.setState({
                           subtypes: currentState.subtypes
                         });
-
+                      }
                       }}
                       >
+                      <Picker.Item label="Select" value="Select" />
                       <Picker.Item label="Vampire" value="Vampire" />
                       <Picker.Item label="Dragon" value="Dragon" />
                       <Picker.Item label="Wizard" value="Wizard" />
                       <Picker.Item label="Knight" value="Knight" />
                       <Picker.Item label="Merfolk" value="Merfolk" />
+
                     </Picker>
                     </View>
                 )}
@@ -180,6 +107,7 @@ export default class SearchFieldsComponent extends Component {
 
                     }}
                     >
+                    <Picker.Item label="Select" value="Select" />
                     <Picker.Item label="Vampire" value="Vampire" />
                     <Picker.Item label="Dragon" value="Dragon" />
                     <Picker.Item label="Wizard" value="Wizard" />
@@ -191,6 +119,150 @@ export default class SearchFieldsComponent extends Component {
                 )}}
                />
             </View>
+
+            <View style={styles.fieldContainer}>
+                    <Text>{strings.CMC}</Text>
+                    <TextInput
+                    value={this.props.state.CMC}
+                    style={styles.textinput}
+                    keyboardType='numeric'
+                    onChangeText={(text) => {
+                      this.props.handler({
+                        CMC: text
+                      })
+                    }}
+                    />
+            </View>
+
+            <View
+              style={styles.fieldContainer}
+            >
+              <Text>{strings.Text}</Text>
+              <TextInput
+                value={this.props.state.text}
+                style={styles.textinput}
+                onChangeText={(text) => {
+                  this.props.handler({
+                    text: text
+                  })
+                }}
+              />
+
+            </View>
+
+          </View>
+        );
+      }
+
+      else if (this.props.state.type == "creature")
+      {
+        return (
+          <View style={styles.fieldsContainer}>
+
+            <View style={styles.fieldContainer}>
+
+              <FlatList
+                data={this.state.subtypes}
+                extraData={this.state}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) => {
+
+                  if (index == 0)
+                  {
+                    return (
+                      <View style={styles.fieldContainer}>
+                    <Button
+                    style={styles.Button}
+                    title={strings.AddSubtype}
+                    onPress={() => {
+                      currentState = this.state;
+                      currentState.subtypes.push("Select");
+                      console.log(currentState.subtypes.length);
+                      this.props.handler({
+                        subtypes: currentState.subtypes
+                      });
+                      this.setState({
+                        subtypes: currentState.subtypes
+                      });
+                    }}
+                     />
+                    <Text>{strings.Subtypes}</Text>
+                    <Picker style={{height: 50, width: 200}}
+                      selectedValue={this.state.subtypes[index]}
+                      onValueChange={(value) => {
+                        if (value != null)
+                        {
+                        currentState = this.props.state;
+
+                        currentState.subtypes[index] = value;
+                        this.props.handler({
+                          subtypes: currentState.subtypes
+                        });
+                        this.setState({
+                          subtypes: currentState.subtypes
+                        });
+                      }
+                      }}
+                      >
+                      <Picker.Item label="Select" value="Select" />
+                      <Picker.Item label="Vampire" value="Vampire" />
+                      <Picker.Item label="Dragon" value="Dragon" />
+                      <Picker.Item label="Wizard" value="Wizard" />
+                      <Picker.Item label="Knight" value="Knight" />
+                      <Picker.Item label="Merfolk" value="Merfolk" />
+
+                    </Picker>
+                    </View>
+                )}
+
+                  return (
+                    <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end'
+                    }}>
+                  <Picker style={{height: 50, width: 200}}
+                    selectedValue={this.state.subtypes[index]}
+                    onValueChange={(value) => {
+                      currentState = this.props.state;
+
+                      currentState.subtypes[index] = value;
+
+                      this.props.handler({
+                        subtypes: currentState.subtypes
+                      });
+                      this.setState({
+                        subtypes: currentState.subtypes
+                      });
+
+                    }}
+                    >
+                    <Picker.Item label="Select" value="Select" />
+                    <Picker.Item label="Vampire" value="Vampire" />
+                    <Picker.Item label="Dragon" value="Dragon" />
+                    <Picker.Item label="Wizard" value="Wizard" />
+                    <Picker.Item label="Knight" value="Knight" />
+                    <Picker.Item label="Merfolk" value="Merfolk" />
+                  </Picker>
+                  </View>
+
+                )}}
+               />
+            </View>
+
+            <View style={styles.fieldContainer}>
+                    <Text>{strings.CMC}</Text>
+                    <TextInput
+                    value={this.props.state.CMC}
+                    style={styles.textinput}
+                    keyboardType='numeric'
+                    onChangeText={(text) => {
+                      this.props.handler({
+                        CMC: text
+                      })
+                    }}
+                    />
+            </View>
+
             <View style={styles.fieldContainer}>
               <Text style={styles.field}>{strings.Power}</Text>
               <TextInput
@@ -203,6 +275,7 @@ export default class SearchFieldsComponent extends Component {
                   //console.log(parseInt(text));
               }}></TextInput>
             </View>
+
             <View style={styles.fieldContainer}>
               <Text style={styles.field}>{strings.Toughness}</Text>
               <TextInput
@@ -215,9 +288,118 @@ export default class SearchFieldsComponent extends Component {
             }}></TextInput>
             </View>
 
+            <View
+              style={styles.fieldContainer}
+            >
+              <Text>{strings.Text}</Text>
+              <TextInput
+                value={this.props.state.text}
+                style={styles.textinput}
+                onChangeText={(text) => {
+                  this.props.handler({
+                    text: text
+                  })
+                }}
+              />
+
+            </View>
+
           </View>
         )
     }
+
+    else if (this.props.state.type == "sorcery" || this.props.state.type == "instant" || this.props.state.type == "artifact" || this.props.state.type == "enchantment")
+    {
+      return (
+        <View style={styles.fieldsContainer}>
+          
+          <View style={styles.fieldContainer}>
+                  <Text>{strings.CMC}</Text>
+                  <TextInput
+                  value={this.props.state.CMC}
+                  style={styles.textinput}
+                  keyboardType='numeric'
+                  onChangeText={(text) => {
+                    this.props.handler({
+                      CMC: text
+                    })
+                  }}
+                  />
+          </View>
+
+          <View
+            style={styles.fieldContainer}
+          >
+            <Text>{strings.Text}</Text>
+            <TextInput
+              value={this.props.state.text}
+              style={styles.textinput}
+              onChangeText={(text) => {
+                this.props.handler({
+                  text: text
+                })
+              }}
+            />
+
+          </View>
+
+        </View>
+      );
+    }
+
+    else if (this.props.state.type == "planeswalker")
+    {
+      return (
+        <View style={styles.fieldsContainer}>
+          
+          <View style={styles.fieldContainer}>
+                  <Text>{strings.CMC}</Text>
+                  <TextInput
+                  value={this.props.state.CMC}
+                  style={styles.textinput}
+                  keyboardType='numeric'
+                  onChangeText={(text) => {
+                    this.props.handler({
+                      CMC: text
+                    })
+                  }}
+                  />
+          </View>
+
+          <View
+          style={styles.fieldContainer}>
+            <Text>{strings.Loyalty}</Text>
+            <TextInput
+              style={styles.textinput}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                this.props.handler({
+                  loyalty: text
+                })
+              }}
+            />
+          </View>
+
+          <View
+            style={styles.fieldContainer}
+          >
+            <Text>{strings.Text}</Text>
+            <TextInput
+              value={this.props.state.text}
+              style={styles.textinput}
+              onChangeText={(text) => {
+                this.props.handler({
+                  text: text
+                })
+              }}
+            />
+
+          </View>
+
+        </View>
+      );
+    }
+
       else {
         return (
           <Text>Static Content</Text>

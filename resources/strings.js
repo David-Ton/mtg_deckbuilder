@@ -8,5 +8,10 @@ export const strings = {
   Toughness: "Toughness: ",
   AddSubtype: "Add Subtype",
   AddKeyword: "Add Keyword",
-  Search: "Search"
+  Search: "Search",
+  CMC: "CMC: ",
+  Colors: "Colors",
+  Rarity: "Rarity: ",
+  Text: "Text: ",
+  Loyalty: "Loyalty: "
 }

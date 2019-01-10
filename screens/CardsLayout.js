@@ -21,7 +21,7 @@ export default class CardsLayout extends Component {
 
     componentDidMount() {
         responseData = this.props.navigation.getParam('cardsDataString', '');
-        console.log(responseData);
+        //console.log(responseData);
 
         if (responseData.length != 0) {
             data = JSON.parse(responseData);
@@ -58,10 +58,10 @@ export default class CardsLayout extends Component {
                 cardsData.push(buildArray);
             }
 
-            console.log("Cards: " + cardsList);
+           //console.log("Cards: " + cardsList);
             //console.log("Cards array of arrays: " + cardsData);
             this.setState({
-                cardsData: cardsData
+                cardsData: cardsList
             });
         }
     }
@@ -76,62 +76,17 @@ export default class CardsLayout extends Component {
             data={this.state.cardsData}
             extraData={this.state}
             renderItem={({item, index}) => {
-
-                if (this.state.cardsData[index].length == 1)
-                {
-                    console.log("URL for item 0 at array index " + index + item[0]["imageUrl"]);
+               
                     return (
                         <View style={this.cardRowContainer}>
-                            <Text>
+                            
                                 <Image 
                                 style={styles.image}
-                                source={{uri: item[0]["imageUrl"]}}/>
-                            </Text>
+                                source={{uri: item["imageUrl"]}}/>
+                            
                         </View>
                     );
-                }
-
-                if (this.state.cardsData[index].length == 2)
-                {
-                    console.log("URL for item 0 at array index " + index + item[0]["imageUrl"]);
-                    console.log("URL for item 1 at array index " + index + item[1]["imageUrl"]);
-
-                    return (
-                        <View style={this.cardRowContainer}>
-                            <Text>
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item[0]["imageUrl"]}}/>
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item[1]["imageUrl"]}}/>
-                            </Text>
-                        </View>
-                    );
-                }
-
-                if (this.state.cardsData[index].length == 3)
-                {
-                    console.log("URL for item 0 at array index " + index + item[0]["imageUrl"]);
-                    console.log("URL for item 1 at array index " + index + item[1]["imageUrl"]);
-                    console.log("URL for item 2 at array index " + index + item[2]["imageUrl"]);
-
-                    return (
-                        <View style={this.cardRowContainer}>
-                            <Text>
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item[0]["imageUrl"]}}/>
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item[1]["imageUrl"]}}/>
-                                <Image 
-                                style={styles.image}
-                                source={{uri: item[2]["imageUrl"]}}/>
-                            </Text>
-                        </View>
-                    );
-                }
+                
             }}
          />
       </View>
@@ -154,10 +109,11 @@ const styles = StyleSheet.create({
   },
   cardRowContainer: {
       flexDirection: 'row',
-      marginBottom: 10  
+      marginBottom: 20
   },
   image: {
-      width: 80,
-      height: 100
+      width: 200,
+      height: 200,
+      resizeMode: 'contain'
   }
 });
