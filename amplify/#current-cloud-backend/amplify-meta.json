@@ -1,0 +1,35 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "mtgdeckbuilder-20190110182733-authRole",
+			"UnauthRoleArn": "arn:aws:iam::586777292362:role/mtgdeckbuilder-20190110182733-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::586777292362:role/mtgdeckbuilder-20190110182733-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "mtgdeckbuilder-20190110182733-deployment",
+			"UnauthRoleName": "mtgdeckbuilder-20190110182733-unauthRole",
+			"StackName": "mtgdeckbuilder-20190110182733",
+			"StackId": "arn:aws:cloudformation:us-east-1:586777292362:stack/mtgdeckbuilder-20190110182733/4ed79bf0-152f-11e9-a15c-121ba864606a"
+		}
+	},
+	"auth": {
+		"cognito31641a5a": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/mtgdeckbuilder-20190110182733-deployment/amplify-cfn-templates/auth/cognito31641a5a-cloudformation-template.yml",
+				"logicalId": "authcognito31641a5a"
+			},
+			"lastPushTimeStamp": "2019-01-10T23:33:00.306Z",
+			"output": {
+				"AppClientSecret": "198o29f9r4hr0ncfbv82bepvk3bvvan91ft1qfs4n7j19hraksje",
+				"UserPoolId": "us-east-1_vCK3NUszh",
+				"AppClientIDWeb": "pnjnvcqu5j5p1r14as7ie1hch",
+				"AppClientID": "1pimrk2c7aeqfsrid6drp2k4ld",
+				"IdentityPoolId": "us-east-1:97a63570-25cd-4f43-af63-e31bdf2a04b0",
+				"IdentityPoolName": "cognito31641a5a_identitypool_31641a5a",
+				"UserPoolName": "cognito31641a5a_userpool_31641a5a"
+			},
+			"lastPushDirHash": "rnvwe4FG8LfqoEHp2/oZQxJ+wLM="
+		}
+	}
+}

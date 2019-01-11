@@ -1,4 +1,6 @@
 export const strings = {
+  signup_header: "Create a New Account",
+  signin_header: "Sign In to mtgdeckbuilder",
   search_header: "Card Search",
   CardName: "Card Name: ",
   Type: "Type: ",
